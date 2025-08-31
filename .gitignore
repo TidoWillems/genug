@@ -1,0 +1,19 @@
+# Build-Artefakte
+*.zip
+*.bak
+*.tmp
+
+# Lokale Deploy-/Build-Verzeichnisse
+tools/.build/
+*.log
+tmp/
+.cache/
+
+# Secrets
+.deploy.env
+
+# System/Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

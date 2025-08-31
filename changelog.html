@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Changelog – genug</title>
+<script src="marked.min.js?v=__BUILD_VERSION__"></script>
+<style>
+  body{font:16px/1.6 system-ui; max-width:900px; margin:40px auto; padding:0 16px;}
+  pre{white-space:pre-wrap}
+</style>
+<div id="app">Lade…</div>
+<script>
+fetch('CHANGELOG.md').then(r=>r.text()).then(md=>{
+  document.getElementById('app').innerHTML = marked.parse(md);
+});
+</script>

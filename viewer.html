@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ich bin – und das ist genug</title>
+
+<!-- Build-Version -->
+<script>window.__BUILD__="__BUILD__";</script>
+
+  <!-- libs (mit Version-Query, damit Browser immer die frischen Dateien laden) -->
+<script src="marked.min.js?v=__BUILD__"></script>
+<script defer src="genug.js?v=__BUILD__"></script>
+
+  <style>
+    :root{
+      --bg: #ffffff;
+      --fg: #111;
+      --muted:#667;
+      --accent:#0b7285;
+      --card:#f7f7f8;
+      --border:#e5e7eb;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* Explizite Paletten – vom JS via [data-theme] gesetzt */
+    [data-theme="light"]{
+      color-scheme: light;
+      --bg:#ffffff; --fg:#111; --muted:#667; --accent:#0b7285;
+      --card:#f7f7f8; --border:#e5e7eb; --shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+    [data-theme="dark"]{
+      color-scheme: dark;
+      --bg:#0b0c0f; --fg:#e6e6e6; --muted:#9aa3ad; --accent:#58c4d8;
+      --card:#121418; --border:#262a30; --shadow: none;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:var(--bg); color:var(--fg);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration: underline; }
+
+    header{
+      display:flex;
+      flex-direction: column;       /* mobile: Titel über Buttons */
+      gap: .5rem;
+      padding: 16px 24px;
+      border-bottom:1px solid var(--border);
+      position: sticky; top:0; background:var(--bg); z-index: 5;
+    }
+    .site-title{ font-size: 1.5rem; margin:0; }
+    .toolbar{ display:flex; gap:.5rem; flex-wrap:wrap; }
+    .btn{
+      border:1px solid var(--border); background:var(--card); color:var(--fg);
+      padding: 8px 12px; border-radius: 12px; cursor:pointer; box-shadow: var(--shadow);
+    }
+
+    @media (min-width: 961px){
+      header{ flex-direction: row; align-items:center; justify-content:space-between; }
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 300px minmax(0,1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    @media (max-width: 960px){
+      .layout{ grid-template-columns: 1fr; }
+      aside{ position: static; height: auto; }
+      body:not(.nav-open) aside { display: none; } /* Sidebar auf Mobile ausblenden */
+    }
+
+    aside{
+      position: sticky; top: 88px; align-self: start;
+      background:var(--card); border:1px solid var(--border);
+      border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow);
+      max-height: calc(100vh - 120px); overflow:auto;
+    }
+    .search{ display:flex; gap:8px; margin-bottom:10px; }
+    .search input{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--border);
+      background:var(--bg); color:var(--fg);
+    }
+
+    .tree{ margin:0; padding-left: 8px; list-style:none; }
+    .tree li{ margin: 4px 0; }
+    .folder{ font-weight:600; margin-top:8px; }
+    .leaf a{ display:block; padding: 4px 6px; border-radius:8px; }
+    .leaf a.active{ background:rgba(88,196,216,.15); }
+
+    main{ min-width:0; }
+    .card{
+      background:var(--card); border:1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    /* Content */
+    #content h1{ font-size: clamp(24px, 2.6vw, 32px); margin-top:0; }
+    #content h2{ margin-top: 28px; font-size: 1.25rem; }
+    #content h3{ margin-top: 18px; font-size: 1.05rem; color:var(--muted); }
+    #content img, #content video{ max-width:100%; border-radius: 12px; }
+    #content pre, #content code{ font-family: var(--mono); }
+    #content pre{
+      background: #0d0f14; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow:auto;
+    }
+    #content blockquote{
+      border-left: 4px solid var(--accent);
+      margin: 12px 0; padding: 6px 12px; color: var(--muted);
+      border-radius: 8px;
+    }
+
+    .toc{
+      display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .toc a{
+      border:1px solid var(--border); background:var(--bg);
+      padding: 4px 8px; border-radius: 999px; font-size: .9rem;
+    }
+    .toplink{ display:block; text-align:center; color:var(--muted); margin-top: 24px; }
+
+    footer{ text-align:center; color:var(--muted); padding: 32px 0; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 class="site-title">Ich bin – und das ist genug</h1>
+    <div class="toolbar">
+      <button class="btn" id="navToggle">☰ Menü</button>
+      <button class="btn" id="themeToggle" title="Thema umschalten">☯︎ Theme</button>
+      <a class="btn" href="/index.html">← justthisspace</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="search">
+        <input id="search" type="search" placeholder="Suche Dateien …" />
+      </div>
+      <ul id="nav" class="tree">Lade Dateien…</ul>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div id="toc" class="toc" hidden></div>
+        <article id="content">Wähle eine Datei.</article>
+        <a class="toplink" href="#">⬆️ nach oben</a>
+      </div>
+    </main>
+  </div>
+<footer>
+ <small>© justthis.space — Markdown Viewer — Stand: __BUILD__</small>
+</footer>
+</body>
+</html>
