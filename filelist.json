@@ -1,8 +1,10 @@
 [
+  ".github/pull_request_template.md",
   "ausdruck/installation_genug.md",
   "ausdruck/klangspur.md",
   "ausdruck/performance.md",
   "CHANGELOG.md",
+  "CONTRIBUTING.md",
   "fragmente/kein_ich.md",
   "fragmente/randnotizen.md",
   "fragmente/saat.md",

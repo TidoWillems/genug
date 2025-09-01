@@ -104,3 +104,27 @@ EOF_LFTP
 
 echo "✅ Upload fertig nach ${FTP_HOST}:${REMOTE_DIR} (Build ${BUILD_VERSION})"
 rm -rf "$STAGE"
+
+### 8) Git-Sync (immer, falls Repo existiert)
+if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "↪️  Git-Sync: commit & push …"
+
+  git add -A
+
+  if ! git diff --cached --quiet; then
+    git commit -m "deploy: ${BUILD_VERSION}"
+  else
+    echo "ℹ️  Keine neuen Änderungen zu committen."
+  fi
+
+  BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"
+  if git remote get-url origin >/dev/null 2>&1; then
+    git pull --rebase origin "$BRANCH" || true
+    git push -u origin "$BRANCH"
+    echo "✅ Git-Sync abgeschlossen."
+  else
+    echo "ℹ️  Kein Remote 'origin' – Push übersprungen."
+  fi
+else
+  echo "ℹ️  Kein Git-Repo – Git-Sync übersprungen."
+fi
