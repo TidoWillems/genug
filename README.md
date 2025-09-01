@@ -44,7 +44,13 @@ Frei zur Nutzung, Veränderung, Weitergabe – ohne Bedingung, ohne Anspruch.
 > Keine Autorschaft.  
 > Kein Mein und Dein.  
 
----
+## 🚀 Deployment
+
+- `./deploy.sh` → nur Upload nach FTP  
+- `./deploy_git.sh` → FTP + GitHub-Sync (Commit & Push)  
+
+👉 Hinweis: In `deploy.sh` ist der Git-Block auskommentiert.  
+   Wer möchte, kann ihn direkt aktivieren oder stattdessen `deploy_git.sh` nutzen.---
 
 ## 🌿 Hinweis / Note
 
@@ -60,3 +66,11 @@ The attribution of a “person” is an illusion. No self, no authorship, no sep
 
 Live-Upload erfolgt **nur lokal** via `./deploy.sh` in Termux.  
 GitHub dient ausschließlich als öffentliches Archiv (Lesen, Issues, Pull Requests).
+
+---
+
+## ▶️ Getting started
+```bash
+./setup.sh        # einmalig: .deploy.env anlegen
+./deploy.sh       # nur FTP-Deploy
+./deploy_git.sh   # FTP + Git commit/push
