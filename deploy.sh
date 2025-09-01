@@ -105,26 +105,46 @@ EOF_LFTP
 echo "✅ Upload fertig nach ${FTP_HOST}:${REMOTE_DIR} (Build ${BUILD_VERSION})"
 rm -rf "$STAGE"
 
+
+### ---------------------------------------------------------------
+### Hinweis:
+### Falls du zusätzlich GitHub-Sync möchtest:
+###  -> siehe deploy_git.sh
+### Oder aktiviere den Block unten durch Entfernen der Kommentarzeichen.
+### ---------------------------------------------------------------
+
+: <<'GIT_SYNC_BLOCK'
+echo "↪️  Git-Sync: commit & push …"
+git add -A
+git commit -m "deploy: ${BUILD_VERSION}" || echo "ℹ️  Nichts zu committen"
+git pull --rebase origin main || true
+git push origin main
+echo "✅ Git-Sync abgeschlossen."
+GIT_SYNC_BLOCK
+
+
+
+
 ### 8) Git-Sync (immer, falls Repo existiert)
-if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "↪️  Git-Sync: commit & push …"
-
-  git add -A
-
-  if ! git diff --cached --quiet; then
-    git commit -m "deploy: ${BUILD_VERSION}"
-  else
-    echo "ℹ️  Keine neuen Änderungen zu committen."
-  fi
-
-  BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"
-  if git remote get-url origin >/dev/null 2>&1; then
-    git pull --rebase origin "$BRANCH" || true
-    git push -u origin "$BRANCH"
-    echo "✅ Git-Sync abgeschlossen."
-  else
-    echo "ℹ️  Kein Remote 'origin' – Push übersprungen."
-  fi
-else
-  echo "ℹ️  Kein Git-Repo – Git-Sync übersprungen."
-fi
+### if command -v git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+###   echo "↪️  Git-Sync: commit & push …"
+###
+###  git add -A
+###
+###  if ! git diff --cached --quiet; then
+###    git commit -m "deploy: ${BUILD_VERSION}"
+###  else
+###    echo "ℹ️  Keine neuen Änderungen zu committen."
+###  fi
+###
+###  BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"
+###  if git remote get-url origin >/dev/null 2>&1; then
+###    git pull --rebase origin "$BRANCH" || true
+###    git push -u origin "$BRANCH"
+###    echo "✅ Git-Sync abgeschlossen."
+###  else
+###    echo "ℹ️  Kein Remote 'origin' – Push übersprungen."
+###  fi
+### else
+###  echo "ℹ️  Kein Git-Repo – Git-Sync übersprungen."
+### fi
