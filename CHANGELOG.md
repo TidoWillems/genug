@@ -218,3 +218,30 @@
   - .github/pull_request_template.md
   - CONTRIBUTING.md
 
+### v0.2 – 2025-09-01
+
+**Setup & Helper Scripts**
+
+- Neues Beispiel-ENV: `.deploy.env.example`
+- `check_env.sh`: prüft Abhängigkeiten (lftp, jq, python) und ENV
+- `404.html`: Minimal-Fehlerseite
+- `robots.txt`: mit Sitemap-Eintrag
+- `setup.sh`: interaktives Setup für `.deploy.env`
+- `deploy_git.sh`: Deploy + Git Commit/Push Variante
+- `footer_patch.sh`: ergänzt Footer-Link auf `STATUS.md`
+
+> Release-Marker: Tag `v0.2`
+
+### v0.2 – 2025-09-01
+
+**Setup & Helper Scripts**
+
+- `.deploy.env.example`: Beispiel-Datei für FTP/Deploy-Konfiguration  
+- `check_env.sh`: prüft Abhängigkeiten (lftp, jq, python) und ENV  
+- `404.html`: Minimal-Fehlerseite  
+- `robots.txt`: mit Sitemap-Eintrag  
+- `setup.sh`: interaktives Setup für `.deploy.env`  
+- `deploy_git.sh`: Deploy + Git Commit/Push  
+- `footer_patch.sh`: ergänzt Footer-Link auf STATUS.md  
+
+> Release-Marker: Tag `v0.2`
