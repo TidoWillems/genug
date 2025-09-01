@@ -53,3 +53,10 @@ Die Zuschreibung „Person“ ist nur Illusion. Kein Ich, keine Urheberschaft, k
 
 **English:**  
 The attribution of a “person” is an illusion. No self, no authorship, no separation.  
+
+---
+
+## 🔧 Deploy
+
+Live-Upload erfolgt **nur lokal** via `./deploy.sh` in Termux.  
+GitHub dient ausschließlich als öffentliches Archiv (Lesen, Issues, Pull Requests).
