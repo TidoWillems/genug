@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 echo "== genug – Setup (.deploy.env) =="
+
 read -rp "FTP Host (z.B. ftpupload.net): " FTP_HOST
 read -rp "FTP User: " FTP_USER
 read -rsp "FTP Pass (wird nicht angezeigt): " FTP_PASS; echo
@@ -15,10 +15,8 @@ REMOTE_DIR=${REMOTE_DIR}
 ENV
 
 echo "✅ .deploy.env geschrieben."
-echo
-echo "Abhängigkeiten (Termux/Unix): lftp jq python"
-echo "Falls nötig:  pkg install lftp jq python"
+echo "Abhängigkeiten: lftp jq python  (Termux: pkg install lftp jq python)"
 echo
 echo "Los geht's:"
-echo "  ./deploy.sh           # nur FTP"
-echo "  ./deploy_git.sh       # FTP + Git Push (optional)"
+echo "  ./deploy.sh       # nur FTP"
+echo "  ./deploy_git.sh   # FTP + Git Push"
