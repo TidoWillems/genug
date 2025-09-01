@@ -25,3 +25,31 @@ cd genug
 
 # Viewer öffnen (lokal)
 # index.html oder viewer.html im Browser öffnen
+
+---
+
+## 🧩 CI/CD
+
+- **CI** baut bei jedem Push ZIPs als Build-Artefakte (`.github/workflows/ci.yml`).
+- **Release** hängt bei Tags `v*` die ZIPs automatisch an die GitHub-Release.
+- **Deploy (optional)** spiegelt bei Push auf `main` per FTP – nur wenn folgende **Repository Secrets** gesetzt sind:
+  - `FTP_HOST`, `FTP_USER`, `FTP_PASS`, `REMOTE_DIR`
+
+## 🕊 Lizenz
+
+CC0 / Public Domain  
+Frei zur Nutzung, Veränderung, Weitergabe – ohne Bedingung, ohne Anspruch.  
+
+> Ursprung ohne Ursprung.  
+> Keine Autorschaft.  
+> Kein Mein und Dein.  
+
+---
+
+## 🌿 Hinweis / Note
+
+**Deutsch:**  
+Die Zuschreibung „Person“ ist nur Illusion. Kein Ich, keine Urheberschaft, keine Trennung.  
+
+**English:**  
+The attribution of a “person” is an illusion. No self, no authorship, no separation.  

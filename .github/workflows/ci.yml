@@ -1,0 +1,43 @@
+name: CI (build & artifacts)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install minimal deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install markdown jq
+
+      - name: Make helpers executable
+        run: chmod +x make_md_zip.sh make_html_zip.sh || true
+
+      - name: Generate filelist & ZIPs
+        run: |
+          python generate_filelist.py
+          ./make_md_zip.sh
+          ./make_html_zip.sh
+          ls -lh *.zip || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: genug-build
+          path: |
+            filelist.json
+            genug_texte*.zip
+            genug_html*.zip
+            genug_texte.zip
+            genug_html.zip
+          if-no-files-found: ignore
